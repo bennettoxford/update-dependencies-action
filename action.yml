@@ -16,25 +16,28 @@ runs:
   using: "composite"
   steps:
     - name: Update dependencies
+      shell: bash
       run: ${{ inputs.update_command }}
     
     - name: Check for changes
+      shell: bash
       id: check_for_changes
       run: echo "changed=$(git diff origin/main -s --exit-code || echo 1)" >> "$GITHUB_OUTPUT"
 
     - name: Run command if changes found
+      shell: bash
       if: ${{ (steps.check_for_changes.outputs.changed) && (inputs.test_command) }}
       run: ${{ inputs.test_command }}
 
     - name: Create a Pull Request if there are any changes
-        id: create_pr
-        uses: peter-evans/create-pull-request@v7.0.5
-        with:
-          add-paths: tests/acceptance/external_studies/*
-          branch: bot/update-dependencies
-          base: main
-          author: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
-          committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
-          commit-message: "chore: Update dependencies"
-          title: "Update dependencies"
-          token: ${{ inputs.token }}
+      id: create_pr
+      uses: peter-evans/create-pull-request@v7.0.5
+      with:
+        add-paths: tests/acceptance/external_studies/*
+        branch: bot/update-dependencies
+        base: main
+        author: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
+        committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
+        commit-message: "chore: Update dependencies"
+        title: "Update dependencies"
+        token: ${{ inputs.token }}
