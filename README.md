@@ -40,7 +40,8 @@ jobs:
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
 | update_command | Command to update the dependencies | yes | just update-dependencies |
-|on_changes_command|A command to run if changes are detected|no|None|
+| on_changes_command|A command to run if changes are detected|no|None|
+| token | The token that the action will use to create and update the pull request | no | GITHUB_TOKEN
 
 
 ## Releasing a new version

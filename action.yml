@@ -7,6 +7,10 @@ inputs:
   test_command: 
     description: "A command to run after dependencies have been updated"
     required: false
+  
+  token: 
+    description: "The token that the action will use to create and update the pull request."
+    default: ${{ github.token }}
 
 runs:
   using: "composite"
@@ -33,3 +37,4 @@ runs:
           committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
           commit-message: "chore: Update dependencies"
           title: "Update dependencies"
+          token: ${{ inputs.token }}
