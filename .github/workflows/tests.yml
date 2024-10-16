@@ -1,0 +1,32 @@
+name: Test workflow
+
+on:
+  # manual only
+  workflow_dispatch:
+
+
+jobs:
+  lint-action:
+    runs-on: ubuntu-latest
+    name: Lint action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint
+        run: make lint
+
+  test-github-action:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the head commit of the branch
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+                       
+    - name: Test 
+      uses: opensafely-core/update-dependencies-action@main
+      with: 
+        update_command: "'> update.txt'"
+        on_changes_command: "'> on_changes.txt'"
+  
