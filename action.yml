@@ -4,7 +4,7 @@ inputs:
     required: false
     default: "just update-dependencies"
   
-  test_command: 
+  on_changes_command: 
     description: "A command to run after dependencies have been updated"
     required: false
   
@@ -26,8 +26,8 @@ runs:
 
     - name: Run command if changes found
       shell: bash
-      if: ${{ (steps.check_for_changes.outputs.changed) && (inputs.test_command) }}
-      run: ${{ inputs.test_command }}
+      if: ${{ (steps.check_for_changes.outputs.changed) && (inputs.on_changes_command) }}
+      run: ${{ inputs.on_changes_command }}
 
     - name: Create a Pull Request if there are any changes
       id: create_pr

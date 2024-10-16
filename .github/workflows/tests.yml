@@ -27,6 +27,6 @@ jobs:
     - name: Test 
       uses: opensafely-core/update-dependencies-action@main
       with: 
-        update_command: "'> update.txt'"
-        on_changes_command: "'> on_changes.txt'"
+        update_command: "echo updated > update.txt"
+        on_changes_command: "echo changed > on_changes.txt"
   
