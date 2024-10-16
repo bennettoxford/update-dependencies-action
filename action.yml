@@ -22,7 +22,7 @@ runs:
     - name: Check for changes
       shell: bash
       id: check_for_changes
-      run: echo "changed=$(git diff origin/main -s --exit-code || echo 1)" >> "$GITHUB_OUTPUT"
+      run: echo "changed=$(git diff -s --exit-code || echo 1)" >> "$GITHUB_OUTPUT"
 
     - name: Run command if changes found
       shell: bash
