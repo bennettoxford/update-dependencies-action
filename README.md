@@ -1,4 +1,4 @@
-# OpenSAFELY Research Action
+# OpenSAFELY Update Dependencies Action
 
 This repo provides a GitHub Action for ensuring that
 dependencies are kept up to date.
@@ -32,7 +32,6 @@ jobs:
     - uses: opensafely-core/update-dependencies-action@v1
       with:
         update_command: "just update-dependencies"
-        on_changes_command: "just test"
 ```
 
 ## Action inputs
@@ -48,13 +47,49 @@ jobs:
 
 Pull requests created by actions using the default `GITHUB_TOKEN` cannot trigger other workflows.
 
-You can pass an `on_changes_command` which can run tests, checks etc that would usually run when
-a PR is opened.
+### Workarounds
+
+1. Use an `on_changes_command`
+
+This can run tests, checks etc that would usually run when a PR is opened, to ensure that
+the PR is only opened if the checks pass. The PR itself will still not trigger the checks.
+
+2. Use an alternative token
 
 Alternatively, you can pass a token that is allowed to create further workflows and pass it as the
 `token` input to this action.
 
-Or see the `create-pull-request` [docs][2] for other options.
+For example, to create and use a GitHub App token:
+
+```
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: "opensafely-core/setup-action@v1"
+      with:
+        python-version: "3.11"
+        install-just: true 
+    
+    - uses: actions/create-github-app-token@v1
+      id: generate-token
+      with:
+        app-id: ${{ secrets.CREATE_PR_APP_ID }}
+        private-key: ${{ secrets.CREATE_PR_APP_PRIVATE_KEY }}
+
+    - uses: opensafely-core/update-dependencies-action@v1
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+```
+
+`secrets.CREATE_PR_APP_ID` and `secrets.CREATE_PR_APP_PRIVATE_KEY` are the 
+app ID and private token for an installed GitHub App that the following 
+repository permissions:
+
+- content: read and write
+- pull-requests: read and write
+
+See the `create-pull-request` [docs][2] for other options.
 
 
 ## Releasing a new version
