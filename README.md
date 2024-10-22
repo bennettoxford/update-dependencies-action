@@ -74,7 +74,7 @@ For example, to create and use a GitHub App token:
     - uses: actions/create-github-app-token@v1
       id: generate-token
       with:
-        app-id: ${{ secrets.CREATE_PR_APP_ID }}
+        app-id: <GitHub APP ID>
         private-key: ${{ secrets.CREATE_PR_APP_PRIVATE_KEY }}
 
     - uses: opensafely-core/update-dependencies-action@v1
@@ -82,8 +82,8 @@ For example, to create and use a GitHub App token:
         token: ${{ steps.generate-token.outputs.token }}
 ```
 
-`secrets.CREATE_PR_APP_ID` and `secrets.CREATE_PR_APP_PRIVATE_KEY` are the 
-app ID and private token for an installed GitHub App that the following 
+`<GitHub APP ID>` and `secrets.CREATE_PR_APP_PRIVATE_KEY` are the 
+app ID and private token for an installed GitHub App that has the following 
 repository permissions:
 
 - content: read and write
