@@ -1,8 +1,8 @@
 name: Test workflow
 
 on:
-  # manual only
   workflow_dispatch:
+  pull_request:
 
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         persist-credentials: false
                        
     - name: Test 
-      uses: opensafely-core/update-dependencies-action@main
+      uses: opensafely-core/update-dependencies-action@v1
       with: 
         update_command: "echo updated > update.txt"
         on_changes_command: "echo changed > on_changes.txt"
