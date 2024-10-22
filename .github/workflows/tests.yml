@@ -29,4 +29,5 @@ jobs:
       with: 
         update_command: "echo updated > update.txt"
         on_changes_command: "echo changed > on_changes.txt"
+        automerge: false
   

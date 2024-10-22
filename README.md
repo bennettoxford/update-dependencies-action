@@ -40,7 +40,8 @@ jobs:
 | --- | --- | --- | --- |
 | update_command | Command to update the dependencies | yes | just update-dependencies |
 | on_changes_command|A command to run if changes are detected|no|None|
-| token | The token that the action will use to create and update the pull request | no | GITHUB_TOKEN
+| token | The token that the action will use to create and update the pull request | no | GITHUB_TOKEN |
+| automerge | Enable automerge on PRs created with the action | no | true |
 
 
 ## Workflows triggered by pull requests

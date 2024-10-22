@@ -12,6 +12,11 @@ inputs:
     description: "The token that the action will use to create and update the pull request."
     default: ${{ github.token }}
 
+  automerge: 
+    description: "Enable automerge on PRs created by the action"
+    default: true
+
+
 runs:
   using: "composite"
   steps:
@@ -45,7 +50,7 @@ runs:
     # The PR will still need to pass any required checks, this just reduces it to a one-click process
     - name: Enable automerge
       shell: bash
-      if: steps.create_pr.outputs.pull-request-operation == 'created'
+      if: ${{ (steps.create_pr.outputs.pull-request-operation == 'created') && (inputs.automerge) }}
       run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
       env:
         GH_TOKEN: ${{ inputs.token }}
