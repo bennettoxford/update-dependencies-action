@@ -50,7 +50,7 @@ runs:
     # The PR will still need to pass any required checks, this just reduces it to a one-click process
     - name: Enable automerge
       shell: bash
-      if: ${{ (steps.create_pr.outputs.pull-request-operation == 'created') && (inputs.automerge) }}
+      if: ${{ (steps.create_pr.outputs.pull-request-operation == 'created') && (inputs.automerge == 'true') }}
       run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
       env:
         GH_TOKEN: ${{ inputs.token }}
