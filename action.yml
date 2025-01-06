@@ -12,6 +12,16 @@ inputs:
     description: "The token that the action will use to create and update the pull request."
     default: ${{ github.token }}
 
+  commit_message:
+    description: "Commit message if changes found"
+    required: false
+    default: "chore: update-dependencies"
+  
+  pr_title:
+    description: "Title for the PR"
+    required: false
+    default: "Update dependencies"
+
   automerge: 
     description: "Enable automerge on PRs created by the action"
     default: true
@@ -42,8 +52,8 @@ runs:
         base: main
         author: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
         committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
-        commit-message: "chore: Update dependencies"
-        title: "Update dependencies"
+        commit-message: ${{ inputs.commit_message }}
+        title: ${{ inputs.pr_title }}
         body: Automated changes by [update-dependencies-action](https://github.com/opensafely-core/update-dependencies-action)
         token: ${{ inputs.token }}
 
