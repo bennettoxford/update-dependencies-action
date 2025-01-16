@@ -29,7 +29,7 @@ jobs:
       with:
         python-version: "3.11"
         install-just: true
-    - uses: opensafely-core/update-dependencies-action@v1
+    - uses: bennettoxford/update-dependencies-action@v1
       with:
         update_command: "just update-dependencies"
 ```
@@ -80,7 +80,7 @@ For example, to create and use a GitHub App token:
         app-id: <GitHub APP ID>
         private-key: ${{ secrets.CREATE_PR_APP_PRIVATE_KEY }}
 
-    - uses: opensafely-core/update-dependencies-action@v1
+    - uses: bennettoxford/update-dependencies-action@v1
       with:
         token: ${{ steps.generate-token.outputs.token }}
 ```

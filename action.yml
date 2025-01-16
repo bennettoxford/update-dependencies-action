@@ -54,7 +54,7 @@ runs:
         committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
         commit-message: ${{ inputs.commit_message }}
         title: ${{ inputs.pr_title }}
-        body: Automated changes by [update-dependencies-action](https://github.com/opensafely-core/update-dependencies-action)
+        body: Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)
         token: ${{ inputs.token }}
 
     # The PR will still need to pass any required checks, this just reduces it to a one-click process
