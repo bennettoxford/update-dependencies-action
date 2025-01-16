@@ -42,7 +42,7 @@ jobs:
 | on_changes_command|A command to run if changes are detected|no|None|
 | token | The token that the action will use to create and update the pull request | no | GITHUB_TOKEN |
 | commit_message | Commit message if changes found| no | "chore: update-dependencies" |
-| pr_title | Pull request title | no | "Update dependencies |
+| pr_title | Pull request title | no | "Update dependencies" |
 | automerge | Enable automerge on PRs created with the action | no | true |
 
 
