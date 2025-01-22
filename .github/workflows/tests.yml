@@ -35,7 +35,6 @@ jobs:
     - name: Test
       uses: bennettoxford/update-dependencies-action@v1
       with:
-        update_command: "rm update.txt"
-        on_changes_command: "rm on_changes.txt"
+        update_command: "pwd"
         pr_title: "PR from test run"
         automerge: false
