@@ -17,6 +17,8 @@ jobs:
 
   test-github-action:
     runs-on: ubuntu-latest
+    outputs:
+      pr_branch: ${{ steps.update.outputs.pull-request-branch }}
 
     steps:
     - name: Checkout the head commit of the branch
@@ -41,3 +43,21 @@ jobs:
             exit 1
           fi
       shell: bash
+
+  cleanup-tests:
+    needs: [test-github-action]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the PR commit of the branch
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        ref: ${{ needs.test-github-action.outputs.pr_branch }}
+
+    - name: Revert changes and close PR
+      uses: bennettoxford/update-dependencies-action@v1
+      with:
+        update_command: "rm update.txt && rm on_changes.txt"
+        pr_title: "PR from test run on ${{ github.ref_name }}"
+        automerge: false
