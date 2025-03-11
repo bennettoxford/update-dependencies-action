@@ -94,6 +94,34 @@ repository permissions:
 
 See the `create-pull-request` [docs][2] for other options.
 
+## Action outputs
+Outputs from the `create-pull-request` action are propograted and can be used by subsequent workflow steps.
+
+- `pull-request-number` - The pull request number.
+- `pull-request-url` - The URL of the pull request.
+- `pull-request-operation` - The pull request operation performed by the action, created, updated, or none.
+- `pull-request-head-sha` - The commit SHA of the pull request branch.
+- `pull-request-branch` - The branch name of the pull request.
+
+For example, to post a created or update PR to a slack channel:
+
+```
+  ...
+    - uses: bennettoxford/update-dependencies-action@v1
+      id: update_dependencies
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+
+    - name: Notify slack
+      if: ${{ steps.update_dependencies.outputs.pull-request-operation != 'none' }}
+      uses: slackapi/slack-github-action@v2.0.0
+      with:
+        method: chat.postMessage
+        token: << SLACK_BOT_TOKEN >>
+        payload: |
+          channel: "channel-id"
+          text: "Update dependencies\n${{ steps.update_dependencies.outputs.pull-request-url }}"
+```
 
 ## Releasing a new version
 
