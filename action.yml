@@ -1,0 +1,82 @@
+inputs:
+  update_command: 
+    description: "A command to update all dependencies"
+    required: false
+    default: "just update-dependencies"
+  
+  on_changes_command: 
+    description: "A command to run after dependencies have been updated"
+    required: false
+  
+  token: 
+    description: "The token that the action will use to create and update the pull request."
+    default: ${{ github.token }}
+
+  commit_message:
+    description: "Commit message if changes found"
+    required: false
+    default: "chore: update-dependencies"
+  
+  pr_title:
+    description: "Title for the PR"
+    required: false
+    default: "Update dependencies"
+
+  automerge: 
+    description: "Enable automerge on PRs created by the action"
+    default: true
+
+outputs:
+  pull-request-number:
+    description: 'The pull request number'
+    value: ${{ steps.create_pr.outputs.pull-request-number }}
+  pull-request-url:
+    description: 'The URL of the pull request.'
+    value: ${{ steps.create_pr.outputs.pull-request-url }}
+  pull-request-operation:
+    description: 'The pull request operation performed by the action, `created` or `updated`.'
+    value: ${{ steps.create_pr.outputs.pull-request-operation }}
+  pull-request-head-sha:
+    description: 'The commit SHA of the pull request branch.'
+    value: ${{ steps.create_pr.outputs.pull-request-head-sha }}
+  pull-request-branch:
+    description: 'The pull request branch name'
+    value: ${{ steps.create_pr.outputs.pull-request-branch }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Update dependencies
+      shell: bash
+      run: ${{ inputs.update_command }}
+    
+    - name: Check for changes
+      shell: bash
+      id: check_for_changes
+      run: echo "changed=$(git fetch origin main -q && git diff origin/main -s --exit-code || echo 1)" >> "$GITHUB_OUTPUT"
+
+    - name: Run command if changes found
+      shell: bash
+      if: ${{ (steps.check_for_changes.outputs.changed) && (inputs.on_changes_command) }}
+      run: ${{ inputs.on_changes_command }}
+
+    - name: Create a Pull Request if there are any changes
+      id: create_pr
+      uses: peter-evans/create-pull-request@v7.0.5
+      with:
+        branch: bot/update-dependencies
+        base: main
+        author: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
+        committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
+        commit-message: ${{ inputs.commit_message }}
+        title: ${{ inputs.pr_title }}
+        body: Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)
+        token: ${{ inputs.token }}
+
+    # The PR will still need to pass any required checks, this just reduces it to a one-click process
+    - name: Enable automerge
+      shell: bash
+      if: ${{ (steps.create_pr.outputs.pull-request-operation == 'created') && (inputs.automerge == 'true') }}
+      run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
+      env:
+        GH_TOKEN: ${{ inputs.token }}

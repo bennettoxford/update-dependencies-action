@@ -1,0 +1,63 @@
+name: Test workflow
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+
+jobs:
+  lint-action:
+    runs-on: ubuntu-latest
+    name: Lint action
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint
+        run: make lint
+
+  test-github-action:
+    runs-on: ubuntu-latest
+    outputs:
+      pr_branch: ${{ steps.update.outputs.pull-request-branch }}
+
+    steps:
+    - name: Checkout the head commit of the branch
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+                       
+    - name: Test 
+      uses: bennettoxford/update-dependencies-action@outputs
+      id: update
+      with:
+        update_command: "echo updated > update.txt"
+        on_changes_command: "echo changed > on_changes.txt"
+        pr_title: "PR from test run on ${{ github.ref_name }}"
+        automerge: false
+
+    - name: Check PR created output
+      run: |
+          set +e
+          if [ "${{ steps.update.outputs.pull-request-operation }}" != "created" ]; then
+            echo "::error::Expected PR operation created, found ${{ steps.update.outputs.pull-request-operation }}"
+            exit 1
+          fi
+      shell: bash
+  
+  cleanup-tests:
+    needs: [test-github-action]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the PR commit of the branch
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        ref: ${{ needs.test-github-action.outputs.pr_branch }}
+
+    - name: Revert changes
+      uses: bennettoxford/update-dependencies-action@outputs
+      with: 
+        update_command: "rm update.txt && rm on_changes.txt"
+        pr_title: "PR from test run on ${{ github.ref_name }}"
+        automerge: false
