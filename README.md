@@ -44,6 +44,7 @@ jobs:
 | commit_message | Commit message if changes found| no | "chore: update-dependencies" |
 | pr_title | Pull request title | no | "Update dependencies" |
 | automerge | Enable automerge on PRs created with the action | no | true |
+| sign-commits | Sign commits as `github-actions[bot]` when using `GITHUB_TOKEN`, or your own bot when using GitHub App tokens. | no | true |
 
 
 ## Workflows triggered by pull requests
@@ -114,7 +115,7 @@ For example, to post a created or update PR to a slack channel:
 
     - name: Notify slack
       if: ${{ steps.update_dependencies.outputs.pull-request-operation != 'none' }}
-      uses: slackapi/slack-github-action@v2.0.0
+      uses: slackapi/slack-github-action@<sha>
       with:
         method: chat.postMessage
         token: << SLACK_BOT_TOKEN >>
