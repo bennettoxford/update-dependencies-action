@@ -115,7 +115,7 @@ For example, to post a created or update PR to a slack channel:
 
     - name: Notify slack
       if: ${{ steps.update_dependencies.outputs.pull-request-operation != 'none' }}
-      uses: slackapi/slack-github-action@v2.0.0
+      uses: slackapi/slack-github-action@<sha>
       with:
         method: chat.postMessage
         token: << SLACK_BOT_TOKEN >>
