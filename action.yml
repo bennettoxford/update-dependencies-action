@@ -26,6 +26,10 @@ inputs:
     description: "Enable automerge on PRs created by the action"
     default: true
 
+  sign-commits:
+    description: 'Sign commits as `github-actions[bot]` when using `GITHUB_TOKEN`, or your own bot when using GitHub App tokens.'
+    default: true
+
 outputs:
   pull-request-number:
     description: 'The pull request number'
@@ -72,6 +76,7 @@ runs:
         title: ${{ inputs.pr_title }}
         body: Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)
         token: ${{ inputs.token }}
+        sign-commits: ${{ inputs.sign-commits }}
 
     # The PR will still need to pass any required checks, this just reduces it to a one-click process
     - name: Enable automerge

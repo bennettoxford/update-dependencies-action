@@ -44,6 +44,7 @@ jobs:
 | commit_message | Commit message if changes found| no | "chore: update-dependencies" |
 | pr_title | Pull request title | no | "Update dependencies" |
 | automerge | Enable automerge on PRs created with the action | no | true |
+| sign-commits | Sign commits as `github-actions[bot]` when using `GITHUB_TOKEN`, or your own bot when using GitHub App tokens. | no | true |
 
 
 ## Workflows triggered by pull requests
