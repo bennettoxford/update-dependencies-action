@@ -2,7 +2,7 @@ inputs:
   update_command: 
     description: "A command to update all dependencies"
     required: false
-    default: "just update-dependencies"
+    default: "just update-dependencies '7 days ago'"
   
   on_changes_command: 
     description: "A command to run after dependencies have been updated"
