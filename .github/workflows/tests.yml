@@ -11,7 +11,7 @@ jobs:
     name: Lint action
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Lint
         run: make lint
 
@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout the head commit of the branch
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         persist-credentials: false
                        
@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: Checkout the PR commit of the branch
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         persist-credentials: false
         ref: ${{ needs.test-github-action.outputs.pr_branch }}
