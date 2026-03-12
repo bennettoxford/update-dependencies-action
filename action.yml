@@ -22,6 +22,10 @@ inputs:
     required: false
     default: "Update dependencies"
 
+  pr_label:
+    description: "Label to apply to PRs created by the action"
+    required: false
+
   automerge: 
     description: "Enable automerge on PRs created by the action"
     default: true
@@ -74,6 +78,7 @@ runs:
         committer: "opensafely-github-bot <opensafely-github-bot@users.noreply.github.com>"
         commit-message: ${{ inputs.commit_message }}
         title: ${{ inputs.pr_title }}
+        labels: ${{ inputs.pr_label }}
         body: Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)
         token: ${{ inputs.token }}
         sign-commits: ${{ inputs.sign-commits }}
