@@ -26,6 +26,11 @@ inputs:
     description: "Label to apply to PRs created by the action"
     required: false
 
+  pr_body:
+    description: "The body of the PR"
+    required: false
+    default: "Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)"
+
   automerge: 
     description: "Enable automerge on PRs created by the action"
     default: true
@@ -79,7 +84,7 @@ runs:
         commit-message: ${{ inputs.commit_message }}
         title: ${{ inputs.pr_title }}
         labels: ${{ inputs.pr_label }}
-        body: Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)
+        body: ${{ inputs.pr_body }}
         token: ${{ inputs.token }}
         sign-commits: ${{ inputs.sign-commits }}
 
