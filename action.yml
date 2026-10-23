@@ -25,6 +25,7 @@ inputs:
   pr_label:
     description: "Label to apply to PRs created by the action"
     required: false
+    default: "dependencies"
 
   pr_body:
     description: "The body of the PR"
