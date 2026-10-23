@@ -31,7 +31,7 @@ jobs:
 
     - name: Test
       id: update
-      uses: bennettoxford/update-dependencies-action@v1
+      uses: ./
       with:
         update_command: "echo updated > update.txt"
         on_changes_command: "echo changed > on_changes.txt"
