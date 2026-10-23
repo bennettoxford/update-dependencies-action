@@ -44,7 +44,7 @@ jobs:
 | token | The token that the action will use to create and update the pull request | no | GITHUB_TOKEN |
 | commit_message | Commit message if changes found| no | "chore: update-dependencies" |
 | pr_title | Pull request title | no | "Update dependencies" |
-| pr_label | Label to apply to pull requests created by the action | no | None |
+| pr_label | Label to apply to pull requests created by the action | no | dependencies |
 | pr_body | The body of the pull request. | no | "Automated changes by [update-dependencies-action](https://github.com/bennettoxford/update-dependencies-action)" |
 | automerge | Enable automerge on PRs created with the action | no | true |
 | sign-commits | Sign commits as `github-actions[bot]` when using `GITHUB_TOKEN`, or your own bot when using GitHub App tokens. | no | true |
