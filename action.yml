@@ -1,3 +1,6 @@
+name: OpenSAFELY Update Dependencies Action
+description: A GitHub Action for ensuring that dependencies are kept up to date
+
 inputs:
   update_command: 
     description: "A command to update all dependencies"
